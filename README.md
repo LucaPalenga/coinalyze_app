@@ -39,6 +39,9 @@ lib/
 ├── domain/                        # Domain layer
 │   └── repositories/
 │       └── coinalyze_repository.dart       # Abstract repository contract
+├── presentation/                  # Presentation layer
+│   └── screens/
+│       └── asset_chart_screen.dart # OHLCV + Open Interest dual chart
 └── main.dart
 ```
 
@@ -49,7 +52,7 @@ lib/
 | **core** | Shared constants, configuration, custom exceptions |
 | **domain** | Abstract repository contracts — no dependencies on external packages |
 | **data** | Models, remote data sources (HTTP), repository implementations |
-| **presentation** | *(future)* UI widgets, state management |
+| **presentation** | UI screens, widgets, state management |
 
 ## API Endpoints
 
@@ -151,3 +154,5 @@ Custom exception hierarchy in `lib/core/error/exceptions.dart`:
 | `json_annotation` | Serialization annotations |
 | `json_serializable` | Code generation (dev) |
 | `build_runner` | Code generation runner (dev) |
+| `interactive_chart` | Candlestick chart with zoom & pan |
+| `intl` | Date formatting |

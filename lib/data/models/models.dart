@@ -1,4 +1,6 @@
 /// Barrel export for all data models.
+library;
+
 export 'api_error_model.dart';
 export 'candlestick_model.dart';
 export 'exchange_info_model.dart';
