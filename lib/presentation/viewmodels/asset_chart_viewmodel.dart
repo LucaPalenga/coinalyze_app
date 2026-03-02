@@ -42,6 +42,9 @@ class AssetChartViewModel extends ChangeNotifier {
   List<CandleData>? _secondaryCandles;
   List<CandleData>? get secondaryCandles => _secondaryCandles;
 
+  bool _isLoadingSecondary = false;
+  bool get isLoadingSecondary => _isLoadingSecondary;
+
   /// Generic map of last values for the secondary chart header.
   Map<String, double?>? _secondaryLastValues;
   Map<String, double?>? get secondaryLastValues => _secondaryLastValues;
@@ -113,32 +116,61 @@ class AssetChartViewModel extends ChangeNotifier {
     loadData();
   }
 
-  /// Changes the secondary chart type and reloads data.
+  /// Changes the secondary chart type and reloads only the secondary data.
   void setSecondaryChartType(SecondaryChartType type) {
     _secondaryChartType = type;
-    loadData();
+    _loadSecondaryOnly();
   }
 
-  /// Fetches OHLCV + selected secondary chart data from the repository.
+  /// Reloads only the secondary chart without touching the primary OHLCV data.
+  Future<void> _loadSecondaryOnly() async {
+    if (_selectedAsset?.symbol == null) return;
+
+    _secondaryCandles = null;
+    _secondaryLastValues = null;
+    _isLoadingSecondary = true;
+    notifyListeners();
+
+    final now = DateTime.now();
+    final to = now.millisecondsSinceEpoch ~/ 1000;
+    final from = to - _getFromDuration();
+    final symbol = _selectedAsset!.symbol!;
+
+    try {
+      final result = await _fetchSecondaryData(symbol, from, to);
+      _parseSecondaryResult(result);
+    } catch (_) {
+      // Non-fatal
+    }
+    _isLoadingSecondary = false;
+    notifyListeners();
+  }
+
+  /// Fetches OHLCV first (so the primary chart renders fast), then loads
+  /// the secondary chart data in a second phase to avoid building both
+  /// heavy chart widgets in the same frame.
   Future<void> loadData() async {
     if (_selectedAsset?.symbol == null) return;
 
     _isLoading = true;
     _error = null;
+    _secondaryCandles = null;
+    _secondaryLastValues = null;
     notifyListeners();
 
+    final now = DateTime.now();
+    final to = now.millisecondsSinceEpoch ~/ 1000;
+    final from = to - _getFromDuration();
+    final symbol = _selectedAsset!.symbol!;
+
+    // Phase 1: load OHLCV
     try {
-      final now = DateTime.now();
-      final to = now.millisecondsSinceEpoch ~/ 1000;
-      final from = to - _getFromDuration();
-      final symbol = _selectedAsset!.symbol!;
-
-      final results = await Future.wait([
-        _repository.getOhlcvHistory(symbols: symbol, interval: _interval, from: from, to: to),
-        _fetchSecondaryData(symbol, from, to),
-      ]);
-
-      final ohlcvList = results[0] as List<OhlcvHistoryModel>;
+      final ohlcvList = await _repository.getOhlcvHistory(
+        symbols: symbol,
+        interval: _interval,
+        from: from,
+        to: to,
+      );
       final ohlcvHistory = ohlcvList.isNotEmpty ? ohlcvList.first.history : null;
 
       _ohlcvCandles = ohlcvHistory?.map((e) {
@@ -154,15 +186,25 @@ class AssetChartViewModel extends ChangeNotifier {
 
       _lastOhlcv = ohlcvHistory?.isNotEmpty == true ? ohlcvHistory!.last : null;
 
-      _parseSecondaryResult(results[1]);
-
       _isLoading = false;
+      _isLoadingSecondary = true;
       notifyListeners();
     } catch (e) {
       _error = e;
       _isLoading = false;
       notifyListeners();
+      return;
     }
+
+    // Phase 2: load secondary chart (primary is already visible)
+    try {
+      final result = await _fetchSecondaryData(symbol, from, to);
+      _parseSecondaryResult(result);
+    } catch (_) {
+      // Secondary data failure is non-fatal; chart will show "not available"
+    }
+    _isLoadingSecondary = false;
+    notifyListeners();
   }
 
   // ---------------------------------------------------------------------------

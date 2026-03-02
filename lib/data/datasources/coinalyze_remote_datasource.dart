@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:coinalyze_app/core/config/env_config.dart';
 import 'package:http/http.dart' as http;
 
-import '../../core/config/env_config.dart';
 import '../../core/constants/api_constants.dart';
 import '../../core/error/exceptions.dart';
 import '../models/models.dart';

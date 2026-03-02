@@ -184,7 +184,6 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
         Expanded(flex: 65, child: _buildPriceChart()),
         Divider(height: 1, thickness: 1, color: context.colorScheme.outlineVariant),
         _buildChartTypeButton(),
-        // _buildSecondaryHeader(),
         Expanded(flex: 35, child: _buildSecondaryChart()),
       ],
     );
@@ -269,107 +268,6 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
     );
     if (result != null) {
       _viewModel.setSecondaryChartType(result);
-    }
-  }
-
-  // ---------------------------------------------------------------------------
-  // Secondary Header — dynamic based on chart type
-  // ---------------------------------------------------------------------------
-
-  Widget _buildSecondaryHeader() {
-    final vals = _viewModel.secondaryLastValues;
-    if (vals == null) return const SizedBox.shrink();
-
-    final type = _viewModel.secondaryChartType;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: SpacingSize.sm, vertical: SpacingSize.xs),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(children: _buildSecondaryHeaderChips(type, vals)),
-      ),
-    );
-  }
-
-  List<Widget> _buildSecondaryHeaderChips(SecondaryChartType type, Map<String, double?> vals) {
-    switch (type) {
-      case SecondaryChartType.openInterest:
-        return [
-          ValueChip(
-            label: 'O',
-            value: _viewModel.formatBillions(vals['o']),
-            valueColor: _kGainColor,
-          ),
-          ValueChip(
-            label: 'H',
-            value: _viewModel.formatBillions(vals['h']),
-            valueColor: _kGainColor,
-          ),
-          ValueChip(
-            label: 'L',
-            value: _viewModel.formatBillions(vals['l']),
-            valueColor: _kGainColor,
-          ),
-          ValueChip(
-            label: 'C',
-            value: _viewModel.formatBillions(vals['c']),
-            valueColor: _kGainColor,
-          ),
-        ];
-      case SecondaryChartType.fundingRate:
-        return [
-          ValueChip(
-            label: 'O',
-            value: _viewModel.formatPercent(vals['o']),
-            valueColor: _kGainColor,
-          ),
-          ValueChip(
-            label: 'H',
-            value: _viewModel.formatPercent(vals['h']),
-            valueColor: _kGainColor,
-          ),
-          ValueChip(
-            label: 'L',
-            value: _viewModel.formatPercent(vals['l']),
-            valueColor: _kGainColor,
-          ),
-          ValueChip(
-            label: 'C',
-            value: _viewModel.formatPercent(vals['c']),
-            valueColor: _kGainColor,
-          ),
-        ];
-      case SecondaryChartType.liquidations:
-        return [
-          ValueChip(
-            label: context.l10n.longs,
-            value: _viewModel.formatBillions(vals['longs']),
-            valueColor: _kGainColor,
-          ),
-          ValueChip(
-            label: context.l10n.shorts,
-            value: _viewModel.formatBillions(vals['shorts']),
-            valueColor: _kLossColor,
-          ),
-        ];
-      case SecondaryChartType.longShortRatio:
-        return [
-          ValueChip(
-            label: context.l10n.ratio,
-            value: _viewModel.formatRatio(vals['ratio']),
-            valueColor: _kGainColor,
-          ),
-          ValueChip(
-            label: context.l10n.longs,
-            value: _viewModel.formatPercent(vals['longs']),
-            valueColor: _kGainColor,
-          ),
-          ValueChip(
-            label: context.l10n.shorts,
-            value: _viewModel.formatPercent(vals['shorts']),
-            valueColor: _kLossColor,
-          ),
-        ];
     }
   }
 
@@ -503,6 +401,16 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
   }
 
   Widget _buildSecondaryChart() {
+    if (_viewModel.isLoadingSecondary) {
+      return Center(
+        child: SizedBox(
+          width: IconSize.medium,
+          height: IconSize.medium,
+          child: CircularProgressIndicator(strokeWidth: 2, color: context.colorScheme.primary),
+        ),
+      );
+    }
+
     final candles = _viewModel.secondaryCandles;
     if (candles == null || candles.isEmpty) {
       return Center(
