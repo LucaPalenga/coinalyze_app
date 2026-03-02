@@ -49,6 +49,9 @@ dependencies:
   # Candlestick charts
   interactive_chart: ^0.3.6
 
+  # Google Fonts
+  google_fonts: ^6.2.1
+
   # Date formatting & localization
   intl: ^0.20.2
 

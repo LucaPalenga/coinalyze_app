@@ -9,22 +9,22 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Coinalyze';
+  String get app_title => 'Coinalyze';
 
   @override
-  String get errorLoadingData => 'Error loading data';
+  String get error_loading_data => 'Error loading data';
 
   @override
   String get retry => 'Retry';
 
   @override
-  String get noDataAvailable => 'No data available';
+  String get no_data_available => 'No data available';
 
   @override
-  String get openInterestNotAvailable => 'Open Interest not available';
+  String get open_interest_not_available => 'Open Interest not available';
 
   @override
-  String get aggregatedOpenInterest => 'Aggregated Open Interest';
+  String get aggregated_open_interest => 'Aggregated Open Interest';
 
   @override
   String get open => 'Open';
@@ -40,4 +40,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get volume => 'Volume';
+
+  @override
+  String get error_network_title => 'Connection error';
+
+  @override
+  String get error_network_message =>
+      'Unable to connect to the server. Check your internet connection and try again.';
+
+  @override
+  String get error_server_title => 'Server error';
+
+  @override
+  String get error_unauthorized_title => 'Authentication error';
+
+  @override
+  String get error_unauthorized_message =>
+      'Invalid or missing API key. Please check your configuration.';
+
+  @override
+  String get error_rate_limit_title => 'Too many requests';
+
+  @override
+  String get error_rate_limit_message =>
+      'You have exceeded the request limit. Please wait a moment and try again.';
+
+  @override
+  String get error_generic_title => 'Something went wrong';
 }

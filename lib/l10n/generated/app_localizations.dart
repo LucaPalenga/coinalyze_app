@@ -102,13 +102,13 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Coinalyze'**
-  String get appTitle;
+  String get app_title;
 
   /// Error message shown when data fails to load
   ///
   /// In en, this message translates to:
   /// **'Error loading data'**
-  String get errorLoadingData;
+  String get error_loading_data;
 
   /// Retry button label
   ///
@@ -120,19 +120,19 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'No data available'**
-  String get noDataAvailable;
+  String get no_data_available;
 
   /// Message shown when Open Interest data is not available
   ///
   /// In en, this message translates to:
   /// **'Open Interest not available'**
-  String get openInterestNotAvailable;
+  String get open_interest_not_available;
 
   /// Label for the aggregated open interest chart section
   ///
   /// In en, this message translates to:
   /// **'Aggregated Open Interest'**
-  String get aggregatedOpenInterest;
+  String get aggregated_open_interest;
 
   /// OHLC Open label
   ///
@@ -163,6 +163,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Volume'**
   String get volume;
+
+  /// Title shown when a network error occurs
+  ///
+  /// In en, this message translates to:
+  /// **'Connection error'**
+  String get error_network_title;
+
+  /// Message shown when a network error occurs
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to connect to the server. Check your internet connection and try again.'**
+  String get error_network_message;
+
+  /// Title shown when a server error occurs
+  ///
+  /// In en, this message translates to:
+  /// **'Server error'**
+  String get error_server_title;
+
+  /// Title shown when the API key is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication error'**
+  String get error_unauthorized_title;
+
+  /// Message shown when the API key is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid or missing API key. Please check your configuration.'**
+  String get error_unauthorized_message;
+
+  /// Title shown when rate limit is exceeded
+  ///
+  /// In en, this message translates to:
+  /// **'Too many requests'**
+  String get error_rate_limit_title;
+
+  /// Message shown when rate limit is exceeded
+  ///
+  /// In en, this message translates to:
+  /// **'You have exceeded the request limit. Please wait a moment and try again.'**
+  String get error_rate_limit_message;
+
+  /// Generic error title
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get error_generic_title;
 }
 
 class _AppLocalizationsDelegate

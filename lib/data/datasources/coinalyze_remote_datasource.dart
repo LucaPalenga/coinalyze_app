@@ -28,14 +28,10 @@ abstract class CoinalyzeRemoteDataSource {
   });
 
   /// GET /funding-rate
-  Future<List<FundingRateModel>> getFundingRate({
-    required String symbols,
-  });
+  Future<List<FundingRateModel>> getFundingRate({required String symbols});
 
   /// GET /predicted-funding-rate
-  Future<List<PredictedFundingRateModel>> getPredictedFundingRate({
-    required String symbols,
-  });
+  Future<List<PredictedFundingRateModel>> getPredictedFundingRate({required String symbols});
 
   /// GET /open-interest-history
   Future<List<OpenInterestHistoryModel>> getOpenInterestHistory({
@@ -55,8 +51,7 @@ abstract class CoinalyzeRemoteDataSource {
   });
 
   /// GET /predicted-funding-rate-history
-  Future<List<PredictedFundingRateHistoryModel>>
-      getPredictedFundingRateHistory({
+  Future<List<PredictedFundingRateHistoryModel>> getPredictedFundingRateHistory({
     required String symbols,
     required TimeInterval interval,
     required int from,
@@ -104,8 +99,7 @@ class CoinalyzeRemoteDataSourceImpl implements CoinalyzeRemoteDataSource {
       ApiConstants.apiKeyHeader: EnvConfig.coinalyzeApiKey,
       ...?queryParams,
     };
-    return Uri.parse('${ApiConstants.baseUrl}$path')
-        .replace(queryParameters: params);
+    return Uri.parse('${ApiConstants.baseUrl}$path').replace(queryParameters: params);
   }
 
   dynamic _handleResponse(http.Response response) {
@@ -114,16 +108,13 @@ class CoinalyzeRemoteDataSourceImpl implements CoinalyzeRemoteDataSource {
         return json.decode(response.body);
       case 400:
         final error = ApiErrorModel.fromJson(json.decode(response.body));
-        throw BadRequestException(
-            message: error.message ?? 'Bad request');
+        throw BadRequestException(message: error.message ?? 'Bad request');
       case 401:
         final error = ApiErrorModel.fromJson(json.decode(response.body));
-        throw UnauthorizedException(
-            message: error.message ?? 'Invalid/missing API key');
+        throw UnauthorizedException(message: error.message ?? 'Invalid/missing API key');
       case 429:
         final error = ApiErrorModel.fromJson(json.decode(response.body));
-        throw RateLimitException(
-            message: error.message ?? 'Too many requests');
+        throw RateLimitException(message: error.message ?? 'Too many requests');
       default:
         throw ServerException(
           message: 'Unexpected error: ${response.statusCode}',
@@ -132,11 +123,16 @@ class CoinalyzeRemoteDataSourceImpl implements CoinalyzeRemoteDataSource {
     }
   }
 
-  Future<dynamic> _get(String path,
-      [Map<String, String>? queryParams]) async {
+  Future<dynamic> _get(String path, [Map<String, String>? queryParams]) async {
     final uri = _buildUri(path, queryParams);
-    final response = await client.get(uri);
-    return _handleResponse(response);
+    try {
+      final response = await client.get(uri).timeout(const Duration(seconds: 15));
+      return _handleResponse(response);
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw NetworkException(message: e.toString());
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -146,27 +142,19 @@ class CoinalyzeRemoteDataSourceImpl implements CoinalyzeRemoteDataSource {
   @override
   Future<List<ExchangeInfoModel>> getExchanges() async {
     final data = await _get(ApiConstants.exchanges) as List;
-    return data
-        .map((e) => ExchangeInfoModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return data.map((e) => ExchangeInfoModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   @override
   Future<List<FutureMarketInfoModel>> getFutureMarkets() async {
     final data = await _get(ApiConstants.futureMarkets) as List;
-    return data
-        .map((e) =>
-            FutureMarketInfoModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return data.map((e) => FutureMarketInfoModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   @override
   Future<List<SpotMarketInfoModel>> getSpotMarkets() async {
     final data = await _get(ApiConstants.spotMarkets) as List;
-    return data
-        .map((e) =>
-            SpotMarketInfoModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return data.map((e) => SpotMarketInfoModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   @override
@@ -174,40 +162,26 @@ class CoinalyzeRemoteDataSourceImpl implements CoinalyzeRemoteDataSource {
     required String symbols,
     bool convertToUsd = false,
   }) async {
-    final data = await _get(ApiConstants.openInterest, {
-      ApiConstants.symbolsParam: symbols,
-      if (convertToUsd) ApiConstants.convertToUsdParam: 'true',
-    }) as List;
-    return data
-        .map((e) =>
-            OpenInterestModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final data =
+        await _get(ApiConstants.openInterest, {
+              ApiConstants.symbolsParam: symbols,
+              if (convertToUsd) ApiConstants.convertToUsdParam: 'true',
+            })
+            as List;
+    return data.map((e) => OpenInterestModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   @override
-  Future<List<FundingRateModel>> getFundingRate({
-    required String symbols,
-  }) async {
-    final data = await _get(ApiConstants.fundingRate, {
-      ApiConstants.symbolsParam: symbols,
-    }) as List;
-    return data
-        .map((e) =>
-            FundingRateModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+  Future<List<FundingRateModel>> getFundingRate({required String symbols}) async {
+    final data = await _get(ApiConstants.fundingRate, {ApiConstants.symbolsParam: symbols}) as List;
+    return data.map((e) => FundingRateModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   @override
-  Future<List<PredictedFundingRateModel>> getPredictedFundingRate({
-    required String symbols,
-  }) async {
-    final data = await _get(ApiConstants.predictedFundingRate, {
-      ApiConstants.symbolsParam: symbols,
-    }) as List;
-    return data
-        .map((e) =>
-            PredictedFundingRateModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+  Future<List<PredictedFundingRateModel>> getPredictedFundingRate({required String symbols}) async {
+    final data =
+        await _get(ApiConstants.predictedFundingRate, {ApiConstants.symbolsParam: symbols}) as List;
+    return data.map((e) => PredictedFundingRateModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   @override
@@ -218,17 +192,16 @@ class CoinalyzeRemoteDataSourceImpl implements CoinalyzeRemoteDataSource {
     required int to,
     bool convertToUsd = false,
   }) async {
-    final data = await _get(ApiConstants.openInterestHistory, {
-      ApiConstants.symbolsParam: symbols,
-      ApiConstants.intervalParam: interval.value,
-      ApiConstants.fromParam: from.toString(),
-      ApiConstants.toParam: to.toString(),
-      if (convertToUsd) ApiConstants.convertToUsdParam: 'true',
-    }) as List;
-    return data
-        .map((e) =>
-            OpenInterestHistoryModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final data =
+        await _get(ApiConstants.openInterestHistory, {
+              ApiConstants.symbolsParam: symbols,
+              ApiConstants.intervalParam: interval.value,
+              ApiConstants.fromParam: from.toString(),
+              ApiConstants.toParam: to.toString(),
+              if (convertToUsd) ApiConstants.convertToUsdParam: 'true',
+            })
+            as List;
+    return data.map((e) => OpenInterestHistoryModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   @override
@@ -238,35 +211,34 @@ class CoinalyzeRemoteDataSourceImpl implements CoinalyzeRemoteDataSource {
     required int from,
     required int to,
   }) async {
-    final data = await _get(ApiConstants.fundingRateHistory, {
-      ApiConstants.symbolsParam: symbols,
-      ApiConstants.intervalParam: interval.value,
-      ApiConstants.fromParam: from.toString(),
-      ApiConstants.toParam: to.toString(),
-    }) as List;
-    return data
-        .map((e) =>
-            FundingRateHistoryModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final data =
+        await _get(ApiConstants.fundingRateHistory, {
+              ApiConstants.symbolsParam: symbols,
+              ApiConstants.intervalParam: interval.value,
+              ApiConstants.fromParam: from.toString(),
+              ApiConstants.toParam: to.toString(),
+            })
+            as List;
+    return data.map((e) => FundingRateHistoryModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   @override
-  Future<List<PredictedFundingRateHistoryModel>>
-      getPredictedFundingRateHistory({
+  Future<List<PredictedFundingRateHistoryModel>> getPredictedFundingRateHistory({
     required String symbols,
     required TimeInterval interval,
     required int from,
     required int to,
   }) async {
-    final data = await _get(ApiConstants.predictedFundingRateHistory, {
-      ApiConstants.symbolsParam: symbols,
-      ApiConstants.intervalParam: interval.value,
-      ApiConstants.fromParam: from.toString(),
-      ApiConstants.toParam: to.toString(),
-    }) as List;
+    final data =
+        await _get(ApiConstants.predictedFundingRateHistory, {
+              ApiConstants.symbolsParam: symbols,
+              ApiConstants.intervalParam: interval.value,
+              ApiConstants.fromParam: from.toString(),
+              ApiConstants.toParam: to.toString(),
+            })
+            as List;
     return data
-        .map((e) => PredictedFundingRateHistoryModel.fromJson(
-            e as Map<String, dynamic>))
+        .map((e) => PredictedFundingRateHistoryModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
@@ -278,17 +250,16 @@ class CoinalyzeRemoteDataSourceImpl implements CoinalyzeRemoteDataSource {
     required int to,
     bool convertToUsd = false,
   }) async {
-    final data = await _get(ApiConstants.liquidationHistory, {
-      ApiConstants.symbolsParam: symbols,
-      ApiConstants.intervalParam: interval.value,
-      ApiConstants.fromParam: from.toString(),
-      ApiConstants.toParam: to.toString(),
-      if (convertToUsd) ApiConstants.convertToUsdParam: 'true',
-    }) as List;
-    return data
-        .map((e) =>
-            LiquidationHistoryModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final data =
+        await _get(ApiConstants.liquidationHistory, {
+              ApiConstants.symbolsParam: symbols,
+              ApiConstants.intervalParam: interval.value,
+              ApiConstants.fromParam: from.toString(),
+              ApiConstants.toParam: to.toString(),
+              if (convertToUsd) ApiConstants.convertToUsdParam: 'true',
+            })
+            as List;
+    return data.map((e) => LiquidationHistoryModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   @override
@@ -298,16 +269,15 @@ class CoinalyzeRemoteDataSourceImpl implements CoinalyzeRemoteDataSource {
     required int from,
     required int to,
   }) async {
-    final data = await _get(ApiConstants.longShortRatioHistory, {
-      ApiConstants.symbolsParam: symbols,
-      ApiConstants.intervalParam: interval.value,
-      ApiConstants.fromParam: from.toString(),
-      ApiConstants.toParam: to.toString(),
-    }) as List;
-    return data
-        .map((e) => LongShortRatioHistoryModel.fromJson(
-            e as Map<String, dynamic>))
-        .toList();
+    final data =
+        await _get(ApiConstants.longShortRatioHistory, {
+              ApiConstants.symbolsParam: symbols,
+              ApiConstants.intervalParam: interval.value,
+              ApiConstants.fromParam: from.toString(),
+              ApiConstants.toParam: to.toString(),
+            })
+            as List;
+    return data.map((e) => LongShortRatioHistoryModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   @override
@@ -317,15 +287,14 @@ class CoinalyzeRemoteDataSourceImpl implements CoinalyzeRemoteDataSource {
     required int from,
     required int to,
   }) async {
-    final data = await _get(ApiConstants.ohlcvHistory, {
-      ApiConstants.symbolsParam: symbols,
-      ApiConstants.intervalParam: interval.value,
-      ApiConstants.fromParam: from.toString(),
-      ApiConstants.toParam: to.toString(),
-    }) as List;
-    return data
-        .map((e) =>
-            OhlcvHistoryModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final data =
+        await _get(ApiConstants.ohlcvHistory, {
+              ApiConstants.symbolsParam: symbols,
+              ApiConstants.intervalParam: interval.value,
+              ApiConstants.fromParam: from.toString(),
+              ApiConstants.toParam: to.toString(),
+            })
+            as List;
+    return data.map((e) => OhlcvHistoryModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 }

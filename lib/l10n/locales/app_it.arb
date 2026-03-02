@@ -1,14 +1,22 @@
 {
   "@@locale": "it",
-  "appTitle": "Coinalyze",
-  "errorLoadingData": "Errore nel caricamento dei dati",
+  "app_title": "Coinalyze",
+  "error_loading_data": "Errore nel caricamento dei dati",
   "retry": "Riprova",
-  "noDataAvailable": "Nessun dato disponibile",
-  "openInterestNotAvailable": "Open Interest non disponibile",
-  "aggregatedOpenInterest": "Open Interest Aggregato",
+  "no_data_available": "Nessun dato disponibile",
+  "open_interest_not_available": "Open Interest non disponibile",
+  "aggregated_open_interest": "Open Interest Aggregato",
   "open": "Apertura",
   "high": "Massimo",
   "low": "Minimo",
   "close": "Chiusura",
-  "volume": "Volume"
+  "volume": "Volume",
+  "error_network_title": "Errore di connessione",
+  "error_network_message": "Impossibile connettersi al server. Controlla la tua connessione internet e riprova.",
+  "error_server_title": "Errore del server",
+  "error_unauthorized_title": "Errore di autenticazione",
+  "error_unauthorized_message": "API key non valida o mancante. Verifica la configurazione.",
+  "error_rate_limit_title": "Troppe richieste",
+  "error_rate_limit_message": "Hai superato il limite di richieste. Attendi un momento e riprova.",
+  "error_generic_title": "Qualcosa è andato storto"
 }
