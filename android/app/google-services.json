@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "78517221410",
+    "project_id": "coinalyze-app",
+    "storage_bucket": "coinalyze-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78517221410:android:fb121b05d83a5cb53bf27b",
+        "android_client_info": {
+          "package_name": "it.lp.coinalyze_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5eHYL55oeh7thCc6eDlxkSJJIqaBjm9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

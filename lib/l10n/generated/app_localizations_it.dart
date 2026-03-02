@@ -67,4 +67,50 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get error_generic_title => 'Qualcosa è andato storto';
+
+  @override
+  String get select_asset => 'Seleziona asset';
+
+  @override
+  String get chart_open_interest => 'Open Interest';
+
+  @override
+  String get chart_funding_rate => 'Funding Rate';
+
+  @override
+  String get chart_liquidations => 'Liquidazioni';
+
+  @override
+  String get chart_long_short_ratio => 'Rapporto Long/Short';
+
+  @override
+  String get secondary_chart_not_available =>
+      'Dati non disponibili per questo indicatore';
+
+  @override
+  String get longs => 'Longs';
+
+  @override
+  String get shorts => 'Shorts';
+
+  @override
+  String get ratio => 'Rapporto';
+
+  @override
+  String get search_assets => 'Cerca asset...';
+
+  @override
+  String get no_assets_found => 'Nessun asset trovato';
+
+  @override
+  String get perpetual => 'Perpetuo';
+
+  @override
+  String get loading_assets => 'Caricamento asset...';
+
+  @override
+  String get select_interval => 'Seleziona intervallo';
+
+  @override
+  String get select_chart_type => 'Seleziona tipo di grafico';
 }

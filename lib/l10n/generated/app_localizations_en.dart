@@ -67,4 +67,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_generic_title => 'Something went wrong';
+
+  @override
+  String get select_asset => 'Select asset';
+
+  @override
+  String get chart_open_interest => 'Open Interest';
+
+  @override
+  String get chart_funding_rate => 'Funding Rate';
+
+  @override
+  String get chart_liquidations => 'Liquidations';
+
+  @override
+  String get chart_long_short_ratio => 'Long/Short Ratio';
+
+  @override
+  String get secondary_chart_not_available =>
+      'No data available for this indicator';
+
+  @override
+  String get longs => 'Longs';
+
+  @override
+  String get shorts => 'Shorts';
+
+  @override
+  String get ratio => 'Ratio';
+
+  @override
+  String get search_assets => 'Search assets...';
+
+  @override
+  String get no_assets_found => 'No assets found';
+
+  @override
+  String get perpetual => 'Perpetual';
+
+  @override
+  String get loading_assets => 'Loading assets...';
+
+  @override
+  String get select_interval => 'Select interval';
+
+  @override
+  String get select_chart_type => 'Select chart type';
 }

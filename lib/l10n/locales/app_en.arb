@@ -75,5 +75,65 @@
   "error_generic_title": "Something went wrong",
   "@error_generic_title": {
     "description": "Generic error title"
+  },
+  "select_asset": "Select asset",
+  "@select_asset": {
+    "description": "Title for the asset selection dialog"
+  },
+  "chart_open_interest": "Open Interest",
+  "@chart_open_interest": {
+    "description": "Label for the Open Interest chart type"
+  },
+  "chart_funding_rate": "Funding Rate",
+  "@chart_funding_rate": {
+    "description": "Label for the Funding Rate chart type"
+  },
+  "chart_liquidations": "Liquidations",
+  "@chart_liquidations": {
+    "description": "Label for the Liquidations chart type"
+  },
+  "chart_long_short_ratio": "Long/Short Ratio",
+  "@chart_long_short_ratio": {
+    "description": "Label for the Long/Short Ratio chart type"
+  },
+  "secondary_chart_not_available": "No data available for this indicator",
+  "@secondary_chart_not_available": {
+    "description": "Message shown when secondary chart data is not available"
+  },
+  "longs": "Longs",
+  "@longs": {
+    "description": "Longs label for liquidations"
+  },
+  "shorts": "Shorts",
+  "@shorts": {
+    "description": "Shorts label for liquidations"
+  },
+  "ratio": "Ratio",
+  "@ratio": {
+    "description": "Ratio label for long/short ratio"
+  },
+  "search_assets": "Search assets...",
+  "@search_assets": {
+    "description": "Hint text for the asset search field"
+  },
+  "no_assets_found": "No assets found",
+  "@no_assets_found": {
+    "description": "Message shown when search yields no results"
+  },
+  "perpetual": "Perpetual",
+  "@perpetual": {
+    "description": "Label for perpetual contract type"
+  },
+  "loading_assets": "Loading assets...",
+  "@loading_assets": {
+    "description": "Message shown while loading the asset list"
+  },
+  "select_interval": "Select interval",
+  "@select_interval": {
+    "description": "Title for the time interval selection dialog"
+  },
+  "select_chart_type": "Select chart type",
+  "@select_chart_type": {
+    "description": "Title for the secondary chart type selection dialog"
   }
 }

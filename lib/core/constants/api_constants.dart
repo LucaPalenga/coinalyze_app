@@ -27,6 +27,17 @@ class ApiConstants {
   static const String apiKeyHeader = 'api_key';
 }
 
+/// Supported secondary chart types for the bottom panel.
+enum SecondaryChartType {
+  openInterest('open_interest'),
+  fundingRate('funding_rate'),
+  liquidations('liquidations'),
+  longShortRatio('long_short_ratio');
+
+  final String value;
+  const SecondaryChartType(this.value);
+}
+
 /// Supported time intervals for history endpoints.
 enum TimeInterval {
   oneMin('1min'),

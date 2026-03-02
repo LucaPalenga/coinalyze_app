@@ -211,6 +211,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong'**
   String get error_generic_title;
+
+  /// Title for the asset selection dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Select asset'**
+  String get select_asset;
+
+  /// Label for the Open Interest chart type
+  ///
+  /// In en, this message translates to:
+  /// **'Open Interest'**
+  String get chart_open_interest;
+
+  /// Label for the Funding Rate chart type
+  ///
+  /// In en, this message translates to:
+  /// **'Funding Rate'**
+  String get chart_funding_rate;
+
+  /// Label for the Liquidations chart type
+  ///
+  /// In en, this message translates to:
+  /// **'Liquidations'**
+  String get chart_liquidations;
+
+  /// Label for the Long/Short Ratio chart type
+  ///
+  /// In en, this message translates to:
+  /// **'Long/Short Ratio'**
+  String get chart_long_short_ratio;
+
+  /// Message shown when secondary chart data is not available
+  ///
+  /// In en, this message translates to:
+  /// **'No data available for this indicator'**
+  String get secondary_chart_not_available;
+
+  /// Longs label for liquidations
+  ///
+  /// In en, this message translates to:
+  /// **'Longs'**
+  String get longs;
+
+  /// Shorts label for liquidations
+  ///
+  /// In en, this message translates to:
+  /// **'Shorts'**
+  String get shorts;
+
+  /// Ratio label for long/short ratio
+  ///
+  /// In en, this message translates to:
+  /// **'Ratio'**
+  String get ratio;
+
+  /// Hint text for the asset search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search assets...'**
+  String get search_assets;
+
+  /// Message shown when search yields no results
+  ///
+  /// In en, this message translates to:
+  /// **'No assets found'**
+  String get no_assets_found;
+
+  /// Label for perpetual contract type
+  ///
+  /// In en, this message translates to:
+  /// **'Perpetual'**
+  String get perpetual;
+
+  /// Message shown while loading the asset list
+  ///
+  /// In en, this message translates to:
+  /// **'Loading assets...'**
+  String get loading_assets;
+
+  /// Title for the time interval selection dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Select interval'**
+  String get select_interval;
+
+  /// Title for the secondary chart type selection dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Select chart type'**
+  String get select_chart_type;
 }
 
 class _AppLocalizationsDelegate

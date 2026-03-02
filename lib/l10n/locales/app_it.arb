@@ -18,5 +18,20 @@
   "error_unauthorized_message": "API key non valida o mancante. Verifica la configurazione.",
   "error_rate_limit_title": "Troppe richieste",
   "error_rate_limit_message": "Hai superato il limite di richieste. Attendi un momento e riprova.",
-  "error_generic_title": "Qualcosa è andato storto"
+  "error_generic_title": "Qualcosa è andato storto",
+  "select_asset": "Seleziona asset",
+  "chart_open_interest": "Open Interest",
+  "chart_funding_rate": "Funding Rate",
+  "chart_liquidations": "Liquidazioni",
+  "chart_long_short_ratio": "Rapporto Long/Short",
+  "secondary_chart_not_available": "Dati non disponibili per questo indicatore",
+  "longs": "Longs",
+  "shorts": "Shorts",
+  "ratio": "Rapporto",
+  "search_assets": "Cerca asset...",
+  "no_assets_found": "Nessun asset trovato",
+  "perpetual": "Perpetuo",
+  "loading_assets": "Caricamento asset...",
+  "select_interval": "Seleziona intervallo",
+  "select_chart_type": "Seleziona tipo di grafico"
 }
