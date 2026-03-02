@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:interactive_chart/interactive_chart.dart';
 import 'package:intl/intl.dart';
 
+import '../../constants/sizes_config.dart';
 import '../../core/constants/api_constants.dart';
-import '../../data/models/models.dart';
 import '../../data/datasources/coinalyze_remote_datasource.dart';
+import '../../data/models/models.dart';
 import '../../data/repositories/coinalyze_repository_impl.dart';
 import '../../domain/repositories/coinalyze_repository.dart';
-import 'package:http/http.dart' as http;
+import '../../extensions/build_context.dart';
 
 /// Main screen showing OHLCV price chart + Open Interest chart
 /// stacked vertically, similar to the Coinalyze/TradingView layout.
@@ -158,13 +160,13 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
       elevation: 0,
       title: Row(
         children: [
-          const Icon(Icons.currency_bitcoin, color: Color(0xFFF7931A), size: 24),
-          const SizedBox(width: 8),
+          const Icon(Icons.currency_bitcoin, color: Color(0xFFF7931A), size: IconSize.medium),
+          const SizedBox(width: SpacingSize.sm),
           Text(
             _displayName,
             style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: SpacingSize.md),
           _buildIntervalChip(),
         ],
       ),
@@ -181,17 +183,17 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
     return PopupMenuButton<TimeInterval>(
       color: const Color(0xFF1E222D),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: SpacingSize.sm, vertical: SpacingSize.xs),
         decoration: BoxDecoration(
           color: const Color(0xFF2A2E39),
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(BorderRadiusSize.xs),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(_interval.value, style: const TextStyle(color: Colors.white70, fontSize: 13)),
-            const SizedBox(width: 4),
-            const Icon(Icons.arrow_drop_down, color: Colors.white70, size: 16),
+            const SizedBox(width: SpacingSize.xs),
+            const Icon(Icons.arrow_drop_down, color: Colors.white70, size: IconSize.smallest),
           ],
         ),
       ),
@@ -216,34 +218,34 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
 
   Widget _buildBody() {
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator(color: Color(0xFF2962FF)));
+      return Center(child: CircularProgressIndicator(color: context.colorScheme.primary));
     }
 
     if (_errorMessage != null) {
       return Center(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(SpacingSize.xxl),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.error_outline, color: Colors.redAccent, size: 48),
-              const SizedBox(height: 16),
+              const Icon(Icons.error_outline, color: Colors.redAccent, size: IconSize.xl),
+              const SizedBox(height: SpacingSize.lg),
               Text(
-                'Errore nel caricamento dei dati',
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                context.l10n.errorLoadingData,
+                style: context.textTheme.titleMedium?.copyWith(color: Colors.white),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: SpacingSize.sm),
               Text(
                 _errorMessage!,
                 style: const TextStyle(color: Colors.white54, fontSize: 13),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: SpacingSize.xxl),
               ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF2962FF)),
+                style: ElevatedButton.styleFrom(backgroundColor: context.colorScheme.primary),
                 onPressed: _loadData,
                 icon: const Icon(Icons.refresh),
-                label: const Text('Riprova'),
+                label: Text(context.l10n.retry),
               ),
             ],
           ),
@@ -252,8 +254,8 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
     }
 
     if (_ohlcvCandles == null || _ohlcvCandles!.isEmpty) {
-      return const Center(
-        child: Text('Nessun dato disponibile', style: TextStyle(color: Colors.white54)),
+      return Center(
+        child: Text(context.l10n.noDataAvailable, style: const TextStyle(color: Colors.white54)),
       );
     }
 
@@ -286,14 +288,17 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
 
     return Container(
       color: const Color(0xFF131722),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(
+        horizontal: SpacingSize.md,
+        vertical: SpacingSize.xs + SpacingSize.xxs,
+      ),
       child: Row(
         children: [
           Text(
-            '$_displayName  ${_interval.value}  Coinalyze',
+            '$_displayName  ${_interval.value}  ${context.l10n.appTitle}',
             style: const TextStyle(color: Colors.white54, fontSize: 11),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: SpacingSize.md),
           _infoLabel('O', o, isPositive),
           _infoLabel('H', h, isPositive),
           _infoLabel('L', l, isPositive),
@@ -313,7 +318,7 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
 
   Widget _infoLabel(String label, double? value, bool isPositive) {
     return Padding(
-      padding: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsets.only(right: SpacingSize.sm),
       child: RichText(
         text: TextSpan(
           children: [
@@ -352,14 +357,14 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
 
     return Container(
       color: const Color(0xFF131722),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: SpacingSize.md, vertical: SpacingSize.xs),
       child: Row(
         children: [
-          const Text(
-            'Aggregated Open Interest',
-            style: TextStyle(color: Colors.white54, fontSize: 11),
+          Text(
+            context.l10n.aggregatedOpenInterest,
+            style: const TextStyle(color: Colors.white54, fontSize: 11),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: SpacingSize.md),
           Text(
             '${formatBillions(o)}  ${formatBillions(h)}  ${formatBillions(l)}  ${formatBillions(c)}',
             style: const TextStyle(color: Color(0xFF26A69A), fontSize: 11),
@@ -396,21 +401,21 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
       },
       priceLabel: (price) => price.toStringAsFixed(2),
       overlayInfo: (candle) => {
-        'Open': candle.open?.toStringAsFixed(2) ?? '-',
-        'High': candle.high?.toStringAsFixed(2) ?? '-',
-        'Low': candle.low?.toStringAsFixed(2) ?? '-',
-        'Close': candle.close?.toStringAsFixed(2) ?? '-',
-        'Volume': _formatVolume(candle.volume),
+        context.l10n.open: candle.open?.toStringAsFixed(2) ?? '-',
+        context.l10n.high: candle.high?.toStringAsFixed(2) ?? '-',
+        context.l10n.low: candle.low?.toStringAsFixed(2) ?? '-',
+        context.l10n.close: candle.close?.toStringAsFixed(2) ?? '-',
+        context.l10n.volume: _formatVolume(candle.volume),
       },
     );
   }
 
   Widget _buildOiChart() {
     if (_oiCandles == null || _oiCandles!.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
-          'Open Interest non disponibile',
-          style: TextStyle(color: Colors.white54, fontSize: 12),
+          context.l10n.openInterestNotAvailable,
+          style: const TextStyle(color: Colors.white54, fontSize: 12),
         ),
       );
     }
@@ -446,10 +451,10 @@ class _AssetChartScreenState extends State<AssetChartScreen> {
         return price.toStringAsFixed(0);
       },
       overlayInfo: (candle) => {
-        'Open': _formatBillions(candle.open),
-        'High': _formatBillions(candle.high),
-        'Low': _formatBillions(candle.low),
-        'Close': _formatBillions(candle.close),
+        context.l10n.open: _formatBillions(candle.open),
+        context.l10n.high: _formatBillions(candle.high),
+        context.l10n.low: _formatBillions(candle.low),
+        context.l10n.close: _formatBillions(candle.close),
       },
     );
   }

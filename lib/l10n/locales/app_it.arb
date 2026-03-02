@@ -1,0 +1,14 @@
+{
+  "@@locale": "it",
+  "appTitle": "Coinalyze",
+  "errorLoadingData": "Errore nel caricamento dei dati",
+  "retry": "Riprova",
+  "noDataAvailable": "Nessun dato disponibile",
+  "openInterestNotAvailable": "Open Interest non disponibile",
+  "aggregatedOpenInterest": "Open Interest Aggregato",
+  "open": "Apertura",
+  "high": "Massimo",
+  "low": "Minimo",
+  "close": "Chiusura",
+  "volume": "Volume"
+}

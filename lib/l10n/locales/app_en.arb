@@ -1,0 +1,47 @@
+{
+  "@@locale": "en",
+  "appTitle": "Coinalyze",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "errorLoadingData": "Error loading data",
+  "@errorLoadingData": {
+    "description": "Error message shown when data fails to load"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button label"
+  },
+  "noDataAvailable": "No data available",
+  "@noDataAvailable": {
+    "description": "Message shown when there is no data to display"
+  },
+  "openInterestNotAvailable": "Open Interest not available",
+  "@openInterestNotAvailable": {
+    "description": "Message shown when Open Interest data is not available"
+  },
+  "aggregatedOpenInterest": "Aggregated Open Interest",
+  "@aggregatedOpenInterest": {
+    "description": "Label for the aggregated open interest chart section"
+  },
+  "open": "Open",
+  "@open": {
+    "description": "OHLC Open label"
+  },
+  "high": "High",
+  "@high": {
+    "description": "OHLC High label"
+  },
+  "low": "Low",
+  "@low": {
+    "description": "OHLC Low label"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "OHLC Close label"
+  },
+  "volume": "Volume",
+  "@volume": {
+    "description": "Volume label"
+  }
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'l10n/generated/app_localizations.dart';
 import 'presentation/screens/asset_chart_screen.dart';
 
 void main() async {
@@ -17,6 +18,8 @@ class CoinalyzeApp extends StatelessWidget {
     return MaterialApp(
       title: 'Coinalyze',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: const Color(0xFF131722),
